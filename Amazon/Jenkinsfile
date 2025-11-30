@@ -42,30 +42,22 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            emailext(
-                to: 'pavan.abc.reports@gmail.com',
-                subject: "SUCCESS: AMAZON Job",
-                body: """<b>🎉 Build Successful!</b><br><br>
-                         <b>Job Name:</b> AMAZON<br>
-                         <b>Status:</b> SUCCESS ✔️<br>
-                         <b>Build URL:</b> ${env.BUILD_URL}<br><br>
-                         Regards,<br>
-                         Jenkins Pipeline """
-            )
-        }
-        failure {
-            emailext(
-                to: 'pavan.abc.reports@gmail.com',
-                subject: "FAILED: AMAZON Job",
-                body: """<b>❌ Build Failed!</b><br><br>
-                         <b>Job Name:</b> AMAZON<br>
-                         <b>Status:</b> FAILURE 🚨<br>
-                         <b>Check Logs here:</b> ${env.BUILD_URL}<br><br>
-                         Regards,<br>
-                         Jenkins Pipeline """
-            )
-        }
+post {
+    success {
+        emailext(
+            to: 'pavan.abc.reports@gmail.com',
+            subject: 'SUCCESS: AMAZON Job',
+            body: "Build completed successfully.\n${env.BUILD_URL}"
+        )
+    }
+    failure {
+        emailext(
+            to: 'pavan.abc.reports@gmail.com',
+            subject: 'FAILED: AMAZON Job',
+            body: "Build failed.\nCheck logs: ${env.BUILD_URL}"
+        )
+    }
+}
+
     }
 }
