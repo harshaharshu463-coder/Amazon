@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GIT_BRANCH = 'main'
-        GIT_URL    = 'https://github.com/maruthibg1998/Amazon.git'
+        GIT_URL    = 'https://github.com/harshaharshu463-coder/Amazon.git'
         TOMCAT_WEBAPPS = '/opt/tomcat/webapps'
     }
 
