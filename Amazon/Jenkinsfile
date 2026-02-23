@@ -3,25 +3,71 @@ pipeline {
 
     environment {
         GIT_BRANCH = 'main'
-        GIT_URL    = 'https://github.com/harshaharshu463-coder/Amazon.git'
+        GIT_URL    = 'https://github.com/harshaharshu463-coder/Amazon'
         TOMCAT_WEBAPPS = '/opt/tomcat/webapps'
     }
 
     stages {
 
-        stage('Clone') {
+        stage('Clone Repository') {
             steps {
                 git branch: "${GIT_BRANCH}", url: "${GIT_URL}"
             }
         }
 
-        stage('Build WAR') {
+        // ===== Maven Lifecycle Phases (Step-by-Step) =====
+
+        stage('Maven Clean') {
             steps {
                 dir('Amazon') {
-                    sh 'mvn clean package'
+                    sh 'mvn clean'
                 }
             }
         }
+
+        stage('Maven Compile') {
+            steps {
+                dir('Amazon') {
+                    sh 'mvn compile'
+                }
+            }
+        }
+
+        stage('Maven Test') {
+            steps {
+                dir('Amazon') {
+                    sh 'mvn test'
+                }
+            }
+        }
+
+        stage('Maven Package') {
+            steps {
+                dir('Amazon') {
+                    sh 'mvn package'
+                }
+            }
+        }
+
+        stage('Maven Install') {
+            steps {
+                dir('Amazon') {
+                    sh 'mvn install'
+                }
+            }
+        }
+
+        // ===== Full Lifecycle in One Command (Redundant – Practice Only) =====
+
+        stage('Maven Clean Install (Full Build)') {
+            steps {
+                dir('Amazon') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+
+        // ===== Deployment Stage =====
 
         stage('Deploy to Tomcat') {
             steps {
@@ -38,7 +84,7 @@ pipeline {
             echo "Build & Deployment Successful"
         }
         failure {
-            echo "Deployment Failed"
+            echo "Build or Deployment Failed"
         }
     }
 }
